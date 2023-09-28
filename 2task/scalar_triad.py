@@ -12,19 +12,25 @@ class ArgValPair:
     arg: float
     funcVal: float
 
+def isInBoundaries(x, a, b):
+    if abs(b - x) + abs(a - x) == b - a :
+        return True
+    return False
 
 def scalarTriadMethod(f, a, b, eps=1e-6):
     x = (a + b) / 2
     h = (b - a) / 2
     current = ArgValPair(x, f(x))
-    k = 1
 
     while abs(h) > eps:
-        print(k)
-        k += 1
+        if not(isInBoundaries(current.arg + h, a, b)):
+            h = -h/2
         forward = ArgValPair(current.arg + h, f(current.arg + h))
         if forward.funcVal > current.funcVal:
             h = -h
+
+            if not(isInBoundaries(current.arg + h, a, b)):
+                h = -h/2
             backward = ArgValPair(current.arg + h, f(current.arg + h))
             if backward.funcVal > current.funcVal:
                 h /=  -2

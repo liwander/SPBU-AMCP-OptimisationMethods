@@ -1,9 +1,13 @@
 from  functools import reduce
+from scalar_triad import scalarTriadMethod
+from vector_triad import vectorTriadMethod
 import math as m
 import json
 
 def counted(function):
-
+    '''
+    Decorator for counting function calls 
+    '''
     def func_wrapper(*args, **kvargs):
         func_wrapper.callsNumber += 1
         return function(*args, **kvargs)
@@ -11,17 +15,10 @@ def counted(function):
     func_wrapper.callsNumber = 0
     return func_wrapper
 
-personalData = {}
-with open('./config.json', 'r') as f:
-    personalData = json.load(f)
-
-coefs = [   len(personalData['name']),
-            len(personalData['surname']),
-            len(personalData['patronymic'])]
-
 def constructLossVecFunction(coefs):
+    """Constructs a loss vector function with substituted coefficents"""
     @counted
-    def lossFunction(vecX):
+    def lossFunction(vecX : tuple[float]):
         if len(vecX) != 4:
             raise TypeError('argument vector must contain 4 items')
         quadraticPart = reduce(lambda x, y : x + y, [coefs[i] * (vecX[i] ** 2) for i in range(len(vecX) -1)]) \
@@ -29,12 +26,37 @@ def constructLossVecFunction(coefs):
         linearPart = reduce(lambda x, y : x + y, [coefs[i] * vecX[i] for i in range(len(vecX) - 1)]) \
                         + (coefs[0] + coefs[2])
         return quadraticPart + linearPart
+    
     return lossFunction
 
-def constructLossVecFunction(coefs):
-    
+def constructLossScalarFunction(coefs):
+    ''' Constructs a loss scalar function with substituted coefficents '''
     @counted
     def lossFunction(x):
         return reduce(lambda x, y : x + y, [m.e ** ((coefs[i] * 1e-1) * x) for i in range(len(coefs))]) \
                                             - (sum(coefs)) * m.sin(x)
+    
     return lossFunction
+
+
+def main():
+    personalData = {}
+    with open('./config.json', 'r') as f:
+        personalData = json.load(f)
+    
+    coefs = [len(personalData['name']),
+             len(personalData['surname']),
+             len(personalData['patronymic'])]
+
+    # scalarFunction = constructLossScalarFunction(coefs)
+    # scalarFunction = lambda x : 2 * x
+    # vecFunction = constructLossVecFunction(coefs)
+    vecFunction = lambda x: (x[0] - 1) ** 2 + (x[1] - 1) ** 2
+
+    lb, rb = tuple([-5] * 2), tuple([5] * 2)
+    print(lb, rb)
+    print(vectorTriadMethod(vecFunction, lb, rb))
+
+
+if __name__ == '__main__':
+    main()

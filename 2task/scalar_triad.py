@@ -1,12 +1,5 @@
 from dataclasses import dataclass
 
-# 1. x = x0 + h
-# 2. if f(x) > f(x0) -> h = -h -> (1)
-# 3. 
-
-# memcache all forward needed info - fixed
-# crossing out boundaries 
-
 @dataclass
 class ArgValPair:
     arg: float

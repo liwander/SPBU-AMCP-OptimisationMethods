@@ -16,7 +16,7 @@ def gradDescConstStep(
     X = initX
     grad = funcGrad(func)
 
-    while(vecNorm(func(X)) > eps):
-        X = sumVec(X,  scalVecProduct(-stepLength, grad(X)))
+    while(vecNorm(grad(X)) > eps):
+        X = sumVec(X, scalVecProduct(-stepLength, grad(X)))
         
     return X

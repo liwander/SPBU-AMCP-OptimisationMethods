@@ -1,21 +1,40 @@
 import random
+from collections.abc import Callable
+from vec_op import *
 
-def gradDescVariableStep(funcGrad, func, x_0, a_0, eps, delt):
-    x_k  = x_0
-    f_x_k = func(xk)
-    a_k = a_0
-    
-    while(vecNorm(f_x_k) > delt):
-        x = vecAddvec(x_k, constMultVec(-a_k, funcGrad(x_k)))
-        f_x = func(x)
-        
-        if(f_x - f_k_x > -a_k * eps * vecNorm(funcGrad(x_k))):
-            a_k *= random.uniform(0.0, 1.0)
+
+def gradDescVariableStep(
+        func: Callable[[tuple[float]], float],
+        funcGrad: Callable[[tuple[float]], tuple[float]],
+        secDer: tuple[float],
+        initx: tuple[float],
+        stepLength: float,
+        eps: float = 16e-6
+) -> float:
+    '''
+    Calculate minimum of multiple variable function using gradient descent method with constant step 
+    '''
+
+    xk = initx
+    fxk = func(xk)
+    gradxk = funcGrad(xk)
+
+
+    iter = 0
+    coef = lambda iter : 1 / (iter + 1)
+
+    while(max([abs(gradxk[i]/secDer[i]) for i in range(4)]) > eps):
+        iter += 1
+        x = vecSum(xk, vecMultByScalar(gradxk, -stepLength))
+        fx = func(x)
+
+        if fx - fxk > -stepLength * eps * vecNorm(gradxk):
+            stepLength *= coef(iter)
+            # stepLength *= random.uniform(0.0, 1.0)
             continue
-            
-        x_k = x
-        f_x_K = f_x
-        
-    return x_k
 
-            
+        xk = x
+        fxk = fx
+        gradxk = funcGrad(xk)
+
+    return xk

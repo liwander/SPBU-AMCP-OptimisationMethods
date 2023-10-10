@@ -1,6 +1,7 @@
 from  functools import reduce
 from scalar_triad import scalarTriadMethod
 from vector_triad import vectorTriadMethod
+from collections.abc import Callable
 import math as m
 import json
 
@@ -24,7 +25,7 @@ def constructLossVecFunction(coefs):
         quadraticPart = reduce(lambda x, y : x + y, [coefs[i] * (vecX[i] ** 2) for i in range(len(vecX) -1)]) \
                         + (coefs[0] + coefs[2]) * (vecX[3] ** 2)
         linearPart = reduce(lambda x, y : x + y, [coefs[i] * vecX[i] for i in range(len(vecX) - 1)]) \
-                        + (coefs[0] + coefs[2])
+                        + (coefs[0] + coefs[2]) * vecX[3]
         return quadraticPart + linearPart
     
     return lossFunction
@@ -38,6 +39,44 @@ def constructLossScalarFunction(coefs):
     
     return lossFunction
 
+def constructFuncSecDerivVec(
+        coefs: tuple[float]) -> Callable[[tuple[float]],float]:
+    """
+    Constructs a loss vector function gradient with substituted coefficents
+    """
+    @counted
+    def lossFunctionGrad(vecX : tuple[float]):
+        if len(vecX) != 4:
+            raise TypeError('argument vector must contain 4 items')
+        
+        grad = [None] * 4
+        for i in range(3):
+            grad[i] = coefs[i] * (2 * vecX[i] + 1)
+        grad[3] = (coefs[0] + coefs[2]) * (2 * vecX[3] + 1)
+        
+        return grad
+    
+    return lossFunctionGrad
+
+def constructFuncSecDerivVec(
+        coefs: tuple[float]) -> tuple[float]:
+    """
+    Constructs a loss function second derivative vector with substituted coefficents
+    """
+    @counted
+    def secDerVec(vecX : tuple[float]):
+        if len(vecX) != 4:
+            raise TypeError('argument vector must contain 4 items')
+        
+        secDer = [None] * 4
+        for i in range(3):
+            secDer[i] = coefs[i] * 2
+        secDer[3] = (coefs[0] + coefs[2]) * 2
+        
+        return secDer
+    
+    return secDerVec
+    
 
 def main():
     personalData = {}

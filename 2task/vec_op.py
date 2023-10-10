@@ -1,4 +1,5 @@
 import math
+from common import hex
 
 vector = tuple[float]
 
@@ -28,3 +29,6 @@ def vecToString(x: vector):
     for el in x:
         s += f"{el:0.4f}, "
     return s[:len(s)-2] + "]"
+
+def hexVec(x : vector):
+    return [hex(y) for y in x]

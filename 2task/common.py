@@ -105,7 +105,7 @@ def hex(
         n=4
 ) -> str:
     
-    h = float.hex(f)
+    h = float.hex(float(f))
     a, B = h.split(".")
     B = B.split("p")
     end = ""

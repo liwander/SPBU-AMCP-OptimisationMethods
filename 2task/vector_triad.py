@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from collections.abc import Callable
+from vec_op import hexVec
 
 
 @dataclass
@@ -49,7 +50,8 @@ def vectorTriadMethod(
         f: Callable[[tuple[float]], float],
         a: tuple[float],
         b: tuple[float],
-        eps: float = 1e-6
+        eps: float = 1e-6,
+        file = None
 ) -> tuple[float]:
 
     h = [((b[i] - a[i]) / 2) for i in range(len(a))]
@@ -59,9 +61,19 @@ def vectorTriadMethod(
     # print(x)
     current = ArgValPair(x, f(x))
 
+    # print("Итерация\tНомер координата\tАргумент\tF(xprev)\tF(xcur) \
+            # \tШаг\tТрудоемкость")
+
+    file.write("Итерация\tНомер координата\tАргумент\tF(x) \
+            \tШаг\tТрудоемкость\n")
+
+    iter = 0
+
     while max(list(map(abs, h))) > eps:
+        iter += 1
         for i in range(len(x)):
 
+            # f_old = current.funcVal
             if not (isInBorders(getPointNear(current.args, h[i], i), a, b)):
                 h[i] = h[i] / (-2)
                 break
@@ -84,5 +96,6 @@ def vectorTriadMethod(
             else:
                 current = forward
 
-    print(h)
+            file.write(f"{iter}\t{i+1}\t{hexVec(current.args)}\t{current.funcVal:0.4f}\t{h[i]:0.6f}\t{f.callsNumber}\n")
+    # print(h)
     return current.args

@@ -1,3 +1,9 @@
+from  functools import reduce
+from scalar_triad import scalarTriadMethod
+from vector_triad import vectorTriadMethod
+from collections.abc import Callable
+import math as m
+import json
 
 def counted(function):
     '''
@@ -10,8 +16,12 @@ def counted(function):
     func_wrapper.callsNumber = 0
     return func_wrapper
 
-def constructLossVecFunction(coefs):
-    """Constructs a loss vector function with substituted coefficents"""
+def constructLossVecFunction(
+        coefs: tuple[float]
+        ) -> Callable[[tuple[float]],float]:
+    """
+    Constructs a loss vector function with substituted coefficents
+    """
     @counted
     def lossFunction(vecX : tuple[float]):
         if len(vecX) != 4:
@@ -24,7 +34,9 @@ def constructLossVecFunction(coefs):
     
     return lossFunction
 
-def constructLossScalarFunction(coefs):
+def constructLossScalarFunction(
+        coefs: tuple[float]
+        ) -> Callable[[tuple[float]],float]:
     ''' Constructs a loss scalar function with substituted coefficents '''
     @counted
     def lossFunction(x):
@@ -34,7 +46,8 @@ def constructLossScalarFunction(coefs):
     return lossFunction
 
 def constructFuncSecDerivVec(
-        coefs: tuple[float]) -> Callable[[tuple[float]],float]:
+        coefs: tuple[float]
+        ) -> Callable[[tuple[float]],float]:
     """
     Constructs a loss vector function gradient with substituted coefficents
     """
@@ -53,7 +66,8 @@ def constructFuncSecDerivVec(
     return lossFunctionGrad
 
 def constructFuncSecDerivVec(
-        coefs: tuple[float]) -> tuple[float]:
+        coefs: tuple[float]
+        ) -> tuple[float]:
     """
     Constructs a loss function second derivative vector with substituted coefficents
     """
@@ -71,3 +85,16 @@ def constructFuncSecDerivVec(
     
     return secDerVec
     
+
+def getCoefs(
+        pathToJson: str
+        ) -> tuple[float]:
+    
+    personalData = {}
+    with open(pathToJson, 'r') as f:
+        personalData = json.load(f)
+    
+    coefs = (len(personalData['name']),
+             len(personalData['surname']),
+             len(personalData['patronymic']))
+    return coefs

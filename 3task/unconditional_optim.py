@@ -32,9 +32,9 @@ def gradDescVariableStep(
         x = xk - gradxk * stepLength
         fx = func(x)
 
-        # print(iter, x, np.linalg.norm(gradxk))
+        print(iter, x, np.linalg.norm(gradxk))
 
-        if fx - fxk > -stepLength * eps * (np.linalg.norm(gradxk) ** 2):
+        if fx - fxk > -stepLength * 1e-3 * (np.linalg.norm(gradxk) ** 2):
             stepLength *= coef
             continue
 

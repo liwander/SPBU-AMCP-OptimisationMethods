@@ -1,6 +1,5 @@
-from functools import reduce
+from functools import lru_cache
 import numpy as np
-from collections.abc import Callable
 
 vector = np.array
 
@@ -44,6 +43,7 @@ def objectFunctionGradient(x : vector) -> float:
     return  np.array([cfs[0] * np.sinh(cfs[0] * x[0]) + 1,
             cfs[1] * np.sinh(cfs[1] * x[1]) + cfs[2]])
 
-#@call_counted
+@call_counted
+@lru_cache(maxsize=1)
 def constraintFunction(x : vector) -> float:
     return x[0] - cf * x[1]

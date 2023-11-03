@@ -7,7 +7,7 @@ def gradDescVariableStep(
         funcGrad: Callable[[tuple[float]], tuple[float]],
         secDer: tuple[float],
         initx: tuple[float],
-        stepLength: float,
+        stepLength: float = 1e-1,
         eps: float = 16e-6,
         file = None
 ) -> float:

@@ -6,7 +6,7 @@ def gradDescVariableStep(
         func: Callable[[vector], float],
         funcGrad: Callable[[vector], vector],
         # secDer: vector,
-        stepLength: float = 1e-2,
+        stepLength: float = 1e-1,
         initx: vector = np.array([0,0]),
         eps: float = 1e-3,
         file = None

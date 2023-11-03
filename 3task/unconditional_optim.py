@@ -6,7 +6,7 @@ def gradDescVariableStep(
         func: Callable[[vector], float],
         funcGrad: Callable[[vector], vector],
         # secDer: vector,
-        stepLength: float = 1,
+        stepLength: float = 1e-2,
         initx: vector = np.array([0,0]),
         eps: float = 1e-3,
         file = None
@@ -26,12 +26,14 @@ def gradDescVariableStep(
     #     "It\tX\t\t\t\t\t\t\t\t\t\t\t\tF(x)\t\tAlpha\t\tgrad F\t\t\t\t\t\t\t\t\tТруд. F\t Труд. grad\n")
    
 
-    while np.linalg.norm(gradxk) > eps:
+    while (np.linalg.norm(gradxk) > eps) :
         iter += 1
         x = xk - gradxk * stepLength
         fx = func(x)
 
-        if fx - fxk > -stepLength * eps * np.linalg.norm(gradxk) ** 2:
+        # print(iter, x, np.linalg.norm(gradxk))
+
+        if fx - fxk > -stepLength * eps * (np.linalg.norm(gradxk) ** 2):
             stepLength *= coef(iter)
             continue
 

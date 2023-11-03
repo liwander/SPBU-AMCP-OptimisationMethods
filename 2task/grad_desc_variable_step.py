@@ -31,7 +31,7 @@ def gradDescVariableStep(
         x = vecSum(xk, vecMultByScalar(gradxk, -stepLength))
         fx = func(x)
 
-        if fx - fxk > -stepLength * eps * vecNorm(gradxk):
+        if fx - fxk > -stepLength * eps * (vecNorm(gradxk) ** 2):
             stepLength *= coef(iter)
             # stepLength *= random.uniform(0.0, 1.0)
             continue

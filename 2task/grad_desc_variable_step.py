@@ -19,7 +19,8 @@ def gradDescVariableStep(
     fxk = func(xk)
     gradxk = funcGrad(xk)
     iter = 0
-    coef = lambda iter : 1 / (iter + 1)
+    # coef = lambda iter : 1 / (iter + 1)
+    coef = 99 / 100
 
     file.write("Метод градиентного спуска с переменынм шагом\n")
     file.write(
@@ -32,7 +33,8 @@ def gradDescVariableStep(
         fx = func(x)
 
         if fx - fxk > -stepLength * eps * (vecNorm(gradxk) ** 2):
-            stepLength *= coef(iter)
+            stepLength *= coef
+            # stepLength *= coef(iter)
             # stepLength *= random.uniform(0.0, 1.0)
             continue
 

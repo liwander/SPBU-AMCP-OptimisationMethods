@@ -18,7 +18,7 @@ def gradDescVariableStep(
     gradxk = funcGrad(xk)
     iter = 0
     # coef = lambda iter : 1 / (iter + 1)
-    coef = 5 / 8
+    coef = 1 / 2
 
     # file.write("Метод градиентного спуска с переменынм шагом\n")
     # file.write(
@@ -28,11 +28,14 @@ def gradDescVariableStep(
     while (np.linalg.norm(gradxk) > eps) :
         iter += 1
         x = xk - gradxk * stepLength
+        if fconstr(x) >= 0:
+            stepLength *= coef
+            continue
         fx = func(x)
 
         # print(iter, x, np.linalg.norm(gradxk))
 
-        if fconstr(x) >= 0 or fx - fxk > -stepLength * 1e-3 * (np.linalg.norm(gradxk) ** 2):
+        if fx - fxk > -stepLength * 1e-3 * (np.linalg.norm(gradxk) ** 2):
             stepLength *= coef
             continue
 

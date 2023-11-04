@@ -47,3 +47,5 @@ def objectFunctionGradient(x : vector) -> float:
 # @lru_cache(maxsize=1)
 def constraintFunction(x : vector) -> float:
     return x[0] - cf * x[1]
+
+constraintFunctionGradient = np.array([1, -cf])

@@ -4,16 +4,16 @@ from collections.abc import Callable
 
 @call_counted
 def extPenaltyFunction(x: vector) -> float:
-    return max(0, (x[0] - cf * x[1])) ** 2
+    return max(0, constraintFunction(x)) ** 2
 
 
 @call_counted
 def extPenaltyFunctionGradient(x: vector) -> float:
-    return max(0, (x[0] - cf * x[1])) * 2 * np.array([1, -cf])
+    return max(0, constraintFunction(x)) * 2 * constraintFunctionGradient
 
 
 def extPenaltyCoef(step: float) -> float:
-    return 10.0 ** step
+    return 100 ** step
 
 
 def generateExtPenaltiedFunc(step: float) -> Callable[[vector], float]:

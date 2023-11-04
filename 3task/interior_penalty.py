@@ -6,13 +6,16 @@ from collections.abc import Callable
 @call_counted
 def barrierFunction(x: vector) -> float:
     # return - 1 / (x[0] - x[1] * cf)
-    return -np.log(-(x[0] - x[1] * cf))
+    # return -np.log(-(x[0] - x[1] * cf))    
+    return -np.log(-(constraintFunction(x)))
 
 
 @call_counted
 def barrierFunctionGradient(x: vector) -> float:
     # return (1 / (x[0] - x[1] * cf) ** 2) * np.array([1, -cf])
-    return -(1 / (x[0] - x[1] * cf)) * np.array([1, -cf])
+    # return -(1 / (x[0] - x[1] * cf)) * np.array([1, -cf])
+    return -(1 / constraintFunction(x)) * constraintFunctionGradient
+
 
 
 def barrierCoef(step: float) -> float:

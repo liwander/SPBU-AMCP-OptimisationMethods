@@ -34,11 +34,11 @@ constraintFunctionCoefficent = roflCoefTransformer(
 cfs = objectFunctionCoefficents
 cf = constraintFunctionCoefficent
 
-#@call_counted
+@call_counted
 def objectFunction(x : vector) -> float:
     return  np.cosh(cfs[0] * x[0]) + np.cosh(cfs[2] * x[1]) + x[0] + cfs[1] * x[1] 
     
-#@call_counted
+@call_counted
 def objectFunctionGradient(x : vector) -> float:
     return  np.array([cfs[0] * np.sinh(cfs[0] * x[0]) + 1,
             cfs[2] * np.sinh(cfs[2] * x[1]) + cfs[1]])

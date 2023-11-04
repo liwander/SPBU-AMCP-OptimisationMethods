@@ -12,7 +12,7 @@ def gradDescVariableStep(
         file = None
 ) -> float:
     '''
-    Calculate minimum of multiple variable function using gradient descent method with constant step 
+    Calculate minimum of multiple variable function using gradient descent method with variable step 
     '''
 
     xk = initx

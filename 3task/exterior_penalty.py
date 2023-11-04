@@ -1,5 +1,5 @@
 from common import *
-from unconditional_optim import gradDescVariableStep as minimize
+from extpen_uncmin import gradDescVariableStep as minimize
 from collections.abc import Callable
 
 @call_counted
@@ -36,8 +36,7 @@ def expen():
     x = np.array([cf + 1, 1])
     k = 0
     while extPenaltyFunction(x) > 1e-2:
-        print(k, extPenaltyFunction(x))
-        print(x)
+        print(k, extPenaltyFunction(x), x)
         f = generateExtPenaltiedFunc(k)
         fstreak = generateExtPenaltiedFuncGrad(k)
         x = minimize(f, fstreak, initx=x)

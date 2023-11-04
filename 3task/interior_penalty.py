@@ -1,5 +1,5 @@
 from common import *
-from uncmin import gradDescVariableStep as minimize
+from intpen_uncmin import gradDescVariableStep as minimize
 from collections.abc import Callable
 
 

@@ -1,6 +1,7 @@
 from collections.abc import Callable
-from common import vector
 import numpy as np
+
+vector = np.array
 
 def gradDescVariableStep(
         func: Callable[[vector], float],
@@ -9,10 +10,10 @@ def gradDescVariableStep(
         stepLength: float = 1e-1,
         initx: vector = np.array([0,0]),
         eps: float = 1e-3,
-        file = None
+        # file = None
 ) -> vector:
     '''
-    Calculate minimum of multiple variable function using gradient descent method with constant step 
+    Calculate minimum of multiple variable function using gradient descent method with variable step 
     '''
 
     xk = initx
@@ -32,7 +33,7 @@ def gradDescVariableStep(
         x = xk - gradxk * stepLength
         fx = func(x)
 
-        print(iter, x, np.linalg.norm(gradxk))
+        # print(iter, x, np.linalg.norm(gradxk))
 
         if fx - fxk > -stepLength * 1e-3 * (np.linalg.norm(gradxk) ** 2):
             stepLength *= coef

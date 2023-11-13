@@ -48,4 +48,4 @@ def objectFunctionGradient(x : vector) -> float:
 def constraintFunction(x : vector) -> float:
     return x[0] - cf * x[1]
 
-constraintFunctionGradient = np.array([1, -cf])
+constraintFunctionSlope = np.array([cf, 1])

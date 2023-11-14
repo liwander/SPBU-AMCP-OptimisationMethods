@@ -9,7 +9,7 @@ def extPenaltyFunction(x: vector) -> float:
 
 @call_counted
 def extPenaltyFunctionGradient(x: vector) -> float:
-    return max(0, constraintFunction(x)) * 2 * constraintFunctionSlope
+    return max(0, constraintFunction(x)) * 2 * constraintFunctionGradient
 
 
 def extPenaltyCoef(step: float) -> float:

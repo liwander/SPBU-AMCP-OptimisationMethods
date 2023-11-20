@@ -26,9 +26,9 @@ objectFunctionCoefficents = np.array(
                               roflCoefTransformer(len(personalData['Patronymic']))])
 
 constraintFunctionCoefficent = roflCoefTransformer(
-    len(personalData['Name']) + \
-    len(personalData['Surname']) - \
-    len(personalData['Patronymic']) 
+    len(personalData['Name']) + 
+    len(personalData['Patronymic']) - 
+    len(personalData['Surname'])
 )
 
 cfs = objectFunctionCoefficents

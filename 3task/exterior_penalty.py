@@ -13,7 +13,7 @@ def extPenaltyFunctionGradient(x: vector) -> float:
 
 
 def extPenaltyCoef(step: float) -> float:
-    return 100 ** step
+    return 10 ** step
 
 
 def generateExtPenaltiedFunc(step: float) -> Callable[[vector], float]:
@@ -33,9 +33,9 @@ def generateExtPenaltiedFuncGrad(step: float) -> Callable[[vector], vector]:
 
 
 def expen():
-    x = np.array([cf + 1, 1])
+    x = np.array([cf + 10, 1])
     k = 0
-    while extPenaltyFunction(x) > 1e-2:
+    while extPenaltyFunction(x) > 1e-6:
         print(k, extPenaltyFunction(x), x)
         f = generateExtPenaltiedFunc(k)
         fstreak = generateExtPenaltiedFuncGrad(k)

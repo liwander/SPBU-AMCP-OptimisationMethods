@@ -9,7 +9,7 @@ def gradDescVariableStep(
         # secDer: vector,
         stepLength: float = 1e-1,
         initx: vector = np.array([0,0]),
-        eps: float = 1e-3,
+        eps: float = 1e-4,
         # file = None
 ) -> vector:
     '''
